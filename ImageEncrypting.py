@@ -1,0 +1,49 @@
+from ImageRead import *
+import numpy
+import math
+import cv2
+from ImageDecrypting import *
+class ImageEncrypting:
+    def __init__(self):
+        pass
+    
+    #Convert image array to modulus of five
+    def makeModuleFiveImage(self,imgNpArray):
+        imageRow,imageColumn=imgNpArray.shape[0],imgNpArray.shape[1]
+        for row in range(0,imageRow):
+            for col in range(0,imageColumn):
+                if imgNpArray[row][col] % 5 == 4:
+                    imgNpArray[row][col]+=1 
+                elif imgNpArray[row][col] % 5 == 3:
+                    imgNpArray[row][col]+=2 
+                elif imgNpArray[row][col] % 5 == 2:
+                    imgNpArray[row][col]-=2 
+                elif imgNpArray[row][col] % 5 == 1: 
+                    imgNpArray[row][col]-=1
+
+    def encryptMessage(self,imgNpArray,message):
+        windowRowSize=6
+        windowColSize=6
+        imageRow,imageColumn=imgNpArray.shape[0],imgNpArray.shape[1]
+        totalBlocks=(imageRow*imageColumn)//(windowRowSize*windowColSize)
+        colStart=0
+        rowStart=0
+        for char in message:
+            posCount=-1
+            ASCII=ord(char)
+            if ASCII%36==0:
+                loopNumber=(ASCII//36)+1
+            else:
+                loopNumber=math.ceil(ASCII/36)
+            pos=ASCII % 36
+            for col in range(colStart,colStart+windowRowSize):
+                for row in range(rowStart,rowStart+windowColSize):
+                        posCount+=1
+                        if posCount == pos:
+                            imgNpArray[col][row]+=loopNumber
+            colStart+=windowColSize                
+            if( colStart == imageColumn):
+                rowStart+=windowRowSize
+                colStart=0
+        cv2.imwrite("Test.png",imgNpArray)    
+            
