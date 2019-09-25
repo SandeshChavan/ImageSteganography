@@ -1,7 +1,7 @@
 from ImageRead import *
 import numpy
 import math
-import cv2
+import cv2#Library for computer visions
 from ImageDecrypting import *
 class ImageEncrypting:
     def __init__(self):
@@ -20,7 +20,7 @@ class ImageEncrypting:
                     imgNpArray[row][col]-=2 
                 elif imgNpArray[row][col] % 5 == 1: 
                     imgNpArray[row][col]-=1
-
+    #Method to encrypt the message using the five modulous method
     def encryptMessage(self,imgNpArray,message):
         windowRowSize=6
         windowColSize=6

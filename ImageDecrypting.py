@@ -6,7 +6,7 @@ class ImageDecrypting:
         pass
 
 
-
+    #Method to decrypt the message using the five-modulous method
     def decryptMessage(self,imgNpArray):
         windowRowSize=6
         windowColSize=6
